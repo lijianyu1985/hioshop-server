@@ -6,7 +6,7 @@ module.exports = {
         secret: '0a265fafa2ec7f93ff40ae385ede4fa0', // 小程序密钥
         mch_id: '15988888888', // 商户帐号ID
         partner_key: 'asdasdasdasdasdasdasd', // 微信支付密钥
-        notify_url: 'https://www.您的域名.com/api/pay/notify' // 微信支付异步通知
+        notify_url: 'http://iwzwz.com:5010/api/pay/notify' // 微信支付异步通知
     },
     express: {
         // 已废弃，之后考虑改回来，做成和阿里云的物流查询可以切换，方便大家的使用
