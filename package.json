@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node development.js",
     "compile": "babel --no-babelrc src/ --presets think-node --out-dir app/",
+    "docker": "npm run compile && docker-compose -f docker-compose.yml up -d --build",
     "lint": "eslint src/",
     "lint-fix": "eslint --fix src/"
   },
