@@ -1,5 +1,17 @@
 // default config
+const https = require('https');
+const fs = require('fs');
+const Path = require('path');
+
+const options = {
+    key: fs.readFileSync(Path.join(__dirname, "../../../cert", "www.iwzwz.com.key")),
+    cert: fs.readFileSync(Path.join(__dirname, "../../../cert", "www.iwzwz.com.pem")),
+};
+
 module.exports = {
+    createServer: function(callback){
+      return https.createServer(options, callback);
+    },
     default_module: 'api',
     weixin: {
         appid: 'wx0b5f8a7bb0149b4e', // 小程序 appid
