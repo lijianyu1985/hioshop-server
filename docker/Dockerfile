@@ -1,22 +1,13 @@
-FROM keymetrics/pm2:latest-alpine
+FROM mhart/alpine-node:12
 
-WORKDIR /usr/src/app
+WORKDIR /hio
+COPY package.json /hio/package.json
+RUN npm i --production --registry=https://registry.npm.taobao.org
 
-# Bundle APP files
-COPY src /usr/src/app/src/
-COPY view /usr/src/app/view/
-COPY app /usr/src/app/app/
-COPY runtime /usr/src/app/runtime/
-COPY package.json /usr/src/app/.
-COPY production.json /usr/src/app/.
-COPY development.json /usr/src/app/.
-COPY pm2.json /usr/src/app/.
+COPY src /hio/src
+COPY view /hio/view
+#COPY www /hio/www
+COPY production.js /hio/production.js
 
-# Install app dependencies
-ENV NPM_CONFIG_LOGLEVEL warn
-RUN npm install --production
-
-# Show current folder structure in logs
-RUN ls -al -R
-
-CMD [ "pm2-runtime", "start", "pm2.json" ]
+EXPOSE 8360
+CMD [ "node", "/hio/production.js" ]
