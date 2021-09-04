@@ -6,6 +6,7 @@ RUN npm i --production --registry=https://registry.npm.taobao.org
 
 COPY src /hio/src
 COPY view /hio/view
+COPY cert /hio/cert
 #COPY www /hio/www
 COPY production.js /hio/production.js
 
