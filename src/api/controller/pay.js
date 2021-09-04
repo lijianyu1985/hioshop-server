@@ -8,7 +8,7 @@ module.exports = class extends Base {
      * @returns {Promise<PreventPromise|void|Promise>}
      */
     // 测试时付款，将真实接口注释。 在小程序的services/pay.js中按照提示注释和打开
-    async preWeixinPayaAction() {
+    async preWeixinPayAction() {
         const orderId = this.get('orderId');
         const orderInfo = await this.model('order').where({
             id: orderId
@@ -24,7 +24,7 @@ module.exports = class extends Base {
 		return this.success();
     }
     // 真实的付款接口
-    async preWeixinPayAction() {
+    async preWeixinPayaAction() {
         const orderId = this.get('orderId');
         const orderInfo = await this.model('order').where({
             id: orderId
