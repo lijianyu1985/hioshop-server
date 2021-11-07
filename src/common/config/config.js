@@ -39,14 +39,14 @@ module.exports = {
         access_key: '5WBjiByJaLqH5u6plQgvSMjD5o_Q8no87kxlZRWJ',      // 在七牛密钥管理中获取
         secret_key: 'QYsclDwwm-Cgd5lw5Egz5OOc8B8vDVVaPVvcrpEC',    // 在七牛密钥管理中获取
         bucket: 'laosange',                    // 请填自己的bucket的名称
-        domain: 'http://qyuusao5d.hb-bkt.clouddn.com/'                         // 请填自己的domain域名
+        domain: 'http://image.iwzwz.com/'                         // 请填自己的domain域名
     },
     // 在七牛新建一个https的空间，这个是用来存储分享图片的https图片，对应的是goods表中的https_pic_url
     qiniuHttps: {
         access_key: '5WBjiByJaLqH5u6plQgvSMjD5o_Q8no87kxlZRWJ',      // 在七牛密钥管理中获取
         secret_key: 'QYsclDwwm-Cgd5lw5Egz5OOc8B8vDVVaPVvcrpEC',    // 在七牛密钥管理中获取
         bucket: 'laosange', // 自己设置的
-        domain: 'https://portal.qiniu.com/cdn/domain/qyuusao5d.hb-bkt.clouddn.com/', // 自己设置，例如：'http://img.你的域名.com/',别忘了这个”/“
+        domain: 'http://image.iwzwz.com/', // 自己设置，例如：'http://img.你的域名.com/',别忘了这个”/“
         // https://developer.qiniu.com/kodo/manual/1671/region-endpoint
         zoneNum: 1  // 这个自己根据地区设置：华东 0；华北 1；华南 2； 北美 3；东南亚 4
     },
