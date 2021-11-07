@@ -3,6 +3,7 @@ const moment = require('moment');
 const fs = require('fs');
 const path = require("path");
 const qiniu = require('qiniu');
+const OSS = require('ali-oss');
 module.exports = class extends Base {
     /**
      * index action
@@ -86,7 +87,7 @@ module.exports = class extends Base {
         let insertId = await this.model('goods').add(data);
         let goodsGallery = await this.model('goods_gallery').where({
             goods_id: goodsId,
-            is_delete:0,
+            is_delete: 0,
         }).select();
         for (const item of goodsGallery) {
             let gallery = {
@@ -383,13 +384,13 @@ module.exports = class extends Base {
         }).update({
             is_on_sale: status
         });
-		// 4.14更新
-		await this.model('cart').where({
-			product_id: id,
-			is_delete: 0
-		}).update({
-			is_on_sale: status
-		})
+        // 4.14更新
+        await this.model('cart').where({
+            product_id: id,
+            is_delete: 0
+        }).update({
+            is_on_sale: status
+        })
     }
     async indexShowStatusAction() {
         const id = this.get('id');
@@ -558,29 +559,27 @@ module.exports = class extends Base {
                     await this.model('product').add(item);
                 }
             }
-			for(const [index, item] of values.gallery.entries()){
-				if(item.is_delete == 1 && item.id > 0){
-					await this.model('goods_gallery').where({
-						id:item.id
-					}).update({
-						is_delete:1
-					})
-				}
-				else if(item.is_delete == 0 && item.id > 0){
-					await this.model('goods_gallery').where({
-						id:item.id
-					}).update({
-						sort_order:index
-					})
-				}
-				else if(item.is_delete == 0 && item.id == 0){
-					await this.model('goods_gallery').add({
-						goods_id:id,
-						img_url:item.url,
-						sort_order:index
-					})
-				}
-			}
+            for (const [index, item] of values.gallery.entries()) {
+                if (item.is_delete == 1 && item.id > 0) {
+                    await this.model('goods_gallery').where({
+                        id: item.id
+                    }).update({
+                        is_delete: 1
+                    })
+                } else if (item.is_delete == 0 && item.id > 0) {
+                    await this.model('goods_gallery').where({
+                        id: item.id
+                    }).update({
+                        sort_order: index
+                    })
+                } else if (item.is_delete == 0 && item.id == 0) {
+                    await this.model('goods_gallery').add({
+                        goods_id: id,
+                        img_url: item.url,
+                        sort_order: index
+                    })
+                }
+            }
         } else {
             delete values.id;
             goods_id = await model.add(values);
@@ -596,13 +595,13 @@ module.exports = class extends Base {
                 item.is_on_sale = 1;
                 await this.model('product').add(item);
             }
-			for(const [index, item] of values.gallery.entries()){
-				await this.model('goods_gallery').add({
-					goods_id:goods_id,
-					img_url:item.url,
-					sort_order:index
-				})
-			}
+            for (const [index, item] of values.gallery.entries()) {
+                await this.model('goods_gallery').add({
+                    goods_id: goods_id,
+                    img_url: item.url,
+                    sort_order: index
+                })
+            }
         }
         let pro = await this.model('product').where({
             goods_id: goods_id,
@@ -630,10 +629,9 @@ module.exports = class extends Base {
             let maxCost = Math.max(...cost);
             let minCost = Math.min(...cost);
             let goodsPrice = '';
-            if(minPrice == maxPrice){
+            if (minPrice == maxPrice) {
                 goodsPrice = minPrice;
-            }
-            else{
+            } else {
                 goodsPrice = minPrice + '~' + maxPrice;
             }
             let costPrice = minCost + '~' + maxCost;
@@ -662,7 +660,7 @@ module.exports = class extends Base {
     }
     async updatePriceAction() {
         let data = this.post('');
-		let goods_id = data.goods_id;
+        let goods_id = data.goods_id;
         await this.model('goods_specification').where({
             id: data.goods_specification_ids
         }).update({
@@ -671,14 +669,14 @@ module.exports = class extends Base {
         await this.model('product').where({
             id: data.id
         }).update(data);
-		let pro = await this.model('product').where({
-		    goods_id: goods_id,
-		    is_on_sale: 1,
-		    is_delete: 0
-		}).select();
-		if(pro.length == 0){
-			return this.fail(100,'商品的规格数量至少1个')
-		}
+        let pro = await this.model('product').where({
+            goods_id: goods_id,
+            is_on_sale: 1,
+            is_delete: 0
+        }).select();
+        if (pro.length == 0) {
+            return this.fail(100, '商品的规格数量至少1个')
+        }
         await this.model('cart').where({
             product_id: data.id,
             is_delete: 0,
@@ -688,7 +686,7 @@ module.exports = class extends Base {
             goods_sn: data.goods_sn
         });
         delete data.value;
-     
+
         if (pro.length > 1) {
             let goodsNum = await this.model('product').where({
                 goods_id: goods_id,
@@ -710,10 +708,9 @@ module.exports = class extends Base {
             let maxCost = Math.max(...cost);
             let minCost = Math.min(...cost);
             let goodsPrice = '';
-            if(minPrice == maxPrice){
+            if (minPrice == maxPrice) {
                 goodsPrice = minPrice;
-            }
-            else{
+            } else {
                 goodsPrice = minPrice + '~' + maxPrice;
             }
             let costPrice = minCost + '~' + maxCost;
@@ -726,7 +723,7 @@ module.exports = class extends Base {
                 min_retail_price: minPrice,
                 min_cost_price: minCost,
             });
-        } else if(pro.length == 1){
+        } else if (pro.length == 1) {
             let info = {
                 goods_number: pro[0].goods_number,
                 retail_price: pro[0].retail_price,
@@ -794,7 +791,7 @@ module.exports = class extends Base {
         const model = this.model('goods_gallery');
         const data = await model.where({
             goods_id: id,
-            is_delete:0
+            is_delete: 0
         }).select();
         // console.log(data);
         return this.success(data);
@@ -813,14 +810,14 @@ module.exports = class extends Base {
         const goodsId = this.post('goodsId');
         const data = await this.model('goods_gallery').where({
             goods_id: goodsId,
-            is_delete:0
+            is_delete: 0
         }).order('sort_order asc').select();
         let galleryData = [];
         for (const item of data) {
             let pdata = {
                 id: item.id,
                 url: item.img_url,
-				is_delete:0,
+                is_delete: 0,
             }
             galleryData.push(pdata);
         }
@@ -888,7 +885,7 @@ module.exports = class extends Base {
         });
         return this.success();
     }
-    async uploadHttpsImageAction() {
+    async uploadHttpsImageQiniuAction() {
         let url = this.post('url');
         let accessKey = think.config('qiniuHttps.access_key');
         let secretKey = think.config('qiniuHttps.secret_key');
@@ -896,29 +893,25 @@ module.exports = class extends Base {
         var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
         var config = new qiniu.conf.Config();
         let zoneNum = think.config('qiniuHttps.zoneNum');
-        if(zoneNum == 0){
+        if (zoneNum == 0) {
             config.zone = qiniu.zone.Zone_z0;
-        }
-        else if(zoneNum == 1){
+        } else if (zoneNum == 1) {
             config.zone = qiniu.zone.Zone_z1;
-        }
-        else if(zoneNum == 2){
+        } else if (zoneNum == 2) {
             config.zone = qiniu.zone.Zone_z2;
-        }
-        else if(zoneNum == 3){
+        } else if (zoneNum == 3) {
             config.zone = qiniu.zone.Zone_na0;
-        }
-        else if(zoneNum == 4){
+        } else if (zoneNum == 4) {
             config.zone = qiniu.zone.Zone_as0;
         }
         var bucketManager = new qiniu.rs.BucketManager(mac, config);
         let bucket = think.config('qiniuHttps.bucket');
         let key = think.uuid(32);
         await think.timeout(500);
-        const uploadQiniu = async() => {
+        const uploadQiniu = async () => {
             return new Promise((resolve, reject) => {
                 try {
-                    bucketManager.fetch(url, bucket, key, function(err, respBody, respInfo) {
+                    bucketManager.fetch(url, bucket, key, function (err, respBody, respInfo) {
                         if (err) {
                             console.log(err);
                             //throw err;
@@ -939,5 +932,26 @@ module.exports = class extends Base {
         console.log(httpsUrl);
         let lastUrl = domain + httpsUrl;
         return this.success(lastUrl);
+    }
+    async uploadHttpsImageAction() {
+        //alioss
+        const client = new OSS({
+            region: think.config('alioss.region'),
+            accessKeyId: think.config('alioss.access_key_id'),
+            accessKeySecret: think.config('alioss.access_key_secret'),
+            bucket: think.config('alioss.bucket')
+        });
+        let result = {};
+        try {
+            //图片压缩？
+            const file = (this.file('file'))
+            result = await client.put(this.post('key'), path.normalize(file.path));
+        } catch (e) {
+            console.log(e)
+        }
+        return this.success({
+            url: result.url,
+            name: result.name
+        });
     }
 };
