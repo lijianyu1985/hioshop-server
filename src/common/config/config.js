@@ -9,9 +9,9 @@ const options = {
 };
 
 module.exports = {
-    createServer: function (callback) {
-        return https.createServer(options, callback);
-    },
+    // createServer: function (callback) {
+    //     return https.createServer(options, callback);
+    // },
     default_module: 'api',
     weixin: {
         appid: 'wx4d9c91a95ec5db1e', // 小程序 appid
@@ -60,8 +60,8 @@ module.exports = {
         // deliveryTemplate:
     },
     alioss: {
-        access_key_id: 'LTAI5tCQVSu3TdUmZcCHkXBB', // 在七牛密钥管理中获取
-        access_key_secret: '4dGgI6KYoMVlR12IcMyZ0ibjDWt46k', // 在七牛密钥管理中获取
+        access_key_id: '', // 在七牛密钥管理中获取
+        access_key_secret: '', // 在七牛密钥管理中获取
         bucket: 'laosange-image', // 自己设置的
         region: 'oss-cn-beijing',
     }
