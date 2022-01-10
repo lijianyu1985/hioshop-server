@@ -4,8 +4,8 @@ const fs = require('fs');
 const Path = require('path');
 
 const options = {
-    key: fs.readFileSync(Path.join(__dirname, "../../../cert", "www.iwzwz.com.key")),
-    cert: fs.readFileSync(Path.join(__dirname, "../../../cert", "www.iwzwz.com.pem")),
+    key: fs.readFileSync(Path.join(__dirname, "../../../cert", "www.nanwasystems.com.key")),
+    cert: fs.readFileSync(Path.join(__dirname, "../../../cert", "www.nanwasystems.com.pem")),
 };
 
 module.exports = {
@@ -14,11 +14,11 @@ module.exports = {
     // },
     default_module: 'api',
     weixin: {
-        appid: 'wx0b5f8a7bb0149b4e', // 小程序 appid
-        secret: '0a265fafa2ec7f93ff40ae385ede4fa0', // 小程序密钥
+        appid: 'wx4d9c91a95ec5db1e', // 小程序 appid
+        secret: 'a4ae697ad3905fcd7d6396be1cc1c7e8', // 小程序密钥
         mch_id: '15988888888', // 商户帐号ID
         partner_key: 'asdasdasdasdasdasdasd', // 微信支付密钥
-        notify_url: 'http://iwzwz.com:5010/api/pay/notify' // 微信支付异步通知
+        notify_url: 'http://nanwasystems.com:5010/api/pay/notify' // 微信支付异步通知
     },
     express: {
         // 已废弃，之后考虑改回来，做成和阿里云的物流查询可以切换，方便大家的使用
@@ -39,14 +39,14 @@ module.exports = {
         access_key: '5WBjiByJaLqH5u6plQgvSMjD5o_Q8no87kxlZRWJ', // 在七牛密钥管理中获取
         secret_key: 'QYsclDwwm-Cgd5lw5Egz5OOc8B8vDVVaPVvcrpEC', // 在七牛密钥管理中获取
         bucket: 'laosange', // 请填自己的bucket的名称
-        domain: 'http://image.iwzwz.com/' // 请填自己的domain域名
+        domain: 'http://image.nanwasystems.com/' // 请填自己的domain域名
     },
     // 在七牛新建一个https的空间，这个是用来存储分享图片的https图片，对应的是goods表中的https_pic_url
     qiniuHttps: {
         access_key: '5WBjiByJaLqH5u6plQgvSMjD5o_Q8no87kxlZRWJ', // 在七牛密钥管理中获取
         secret_key: 'QYsclDwwm-Cgd5lw5Egz5OOc8B8vDVVaPVvcrpEC', // 在七牛密钥管理中获取
         bucket: 'laosange', // 自己设置的
-        domain: 'http://image.iwzwz.com/', // 自己设置，例如：'http://img.你的域名.com/',别忘了这个”/“
+        domain: 'http://image.nanwasystems.com/', // 自己设置，例如：'http://img.你的域名.com/',别忘了这个”/“
         // https://developer.qiniu.com/kodo/manual/1671/region-endpoint
         zoneNum: 1 // 这个自己根据地区设置：华东 0；华北 1；华南 2； 北美 3；东南亚 4
     },
